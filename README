@@ -1,0 +1,67 @@
+py_geo_voronoi 
+
+Created by Hohyon Ryu, Aug/19/2011
+
+* Dependencies
+
+ - shapely : sudo apt-get install python-shapely
+ - matplotlib (pylab) : sudo apt-get install python-matplotlib
+ - Built on Steve Fortune's Python Voronoi Code
+   Steve Fortune's homepage: http://netlib.bell-labs.com/cm/cs/who/sjf/index.html
+
+* Inputs:
+  1. Dictionary of the points: (You can use simple sequential number for the dictionary keys or some text to associate with.)
+    PointsMap={}
+    PointsMap["stationA"]=(-143.22, 38.22)
+    PointsMap["stationB"]=(-122.22, 56.22)
+    PointsMap[1]=(-122.22, 56.22)
+
+  2. The bounding box (left_top_x, left_top_y, bottom_right_x, bottom_right,y) to generate a voronoi lattice.
+    Bounding Box Options: You can either use the name or the coordinates
+    "AUSTIN" [30.8, -98.5, 29.535, -97.031]
+    "TX" [36.5, -106, 25, -93]
+    "US" [55, -130, 23, -60]
+    "GUS" [60, -140, 22, -50]
+    "KR" [45, 120, 32, 135] (Korea)
+    "W" [90, -180, -90, 180] (World, Default)
+
+  3. PlotMap: shows the voronoi lattice on a map. This may be extremely slow if you have more than 1M points. (Default is False, Not available for VoronoiLineEdges)
+
+
+* Output options:
+  1. Stations, Lines and edges
+  2. Polygons
+  3. GeoJson Polygons
+  4. GeoJson MultiPolygons
+
+  Example:
+  import voronoi_poly
+
+  vl=voronoi_poly.VoronoiLineEdges(PointsMap)
+  Output:
+    vertices, lines, edges, station_to_edge
+        (1) a list of 2-tuples, which are the x,y coordinates of the 
+            Voronoi diagram vertices
+        (2) a list of 3-tuples (a,b,c) which are the equations of the
+            lines in the Voronoi diagram: a*x + b*y = c
+        (3) a list of 3-tuples, (l, v1, v2) representing edges of the 
+            Voronoi diagram.  l is the index of the line, v1 and v2 are
+            the indices of the vetices at the end of the edge.  If 
+            v1 or v2 is -1, the line extends to infinity.    
+        (4) a dictionary, where keys are the station numbers(vertices), and the 
+            values are the number of edges surrounding the vertice.
+  
+  vl=voronoi_poly.VoronoiPolygons(PointsMap, BoundingBox="AUSTIN", PlotMap=False)
+  Output:
+    185: {'coordinate': (3.04, 36.77), 'info': 'Algiers/Algeria', 'obj_polygon': <shapely.geometry.polygon.Polygon object at 0x3152190>}
+    
+    - You can access the polygon coordinates by the following example:
+
+      from shapely.geometry import Polygon      
+      print list(polygon_data.exterior.coords)
+
+  vl=voronoi_poly.VoronoiGeoJson_Polygons(PointsMap, BoundingBox="US")
+
+  vl=voronoi_poly.VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="KR")
+
+
