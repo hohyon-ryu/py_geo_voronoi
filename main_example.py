@@ -3,7 +3,7 @@
 import sys
 import voronoi_poly
 
-#Run this using the pipe: "cat sample_city_data.cat | python main_example.py"
+#Run this using the pipe: "cat sample_city_data.csv | python main_example.py"
 if __name__=="__main__":
 
   #Creating the PointsMap from the input data
