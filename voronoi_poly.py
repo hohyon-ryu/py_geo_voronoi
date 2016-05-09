@@ -179,7 +179,7 @@ def VoronoiLineEdges(PointsMap):
   return vertices, lines, edges, has_edge
 
 
-def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W", PlotMap=False, Properties=None, JSizatiON=None):
+def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W", PlotMap=False, Properties=None, JSizatiON=None, MdbCollection=None):
   """
 
   Parameters
@@ -205,6 +205,8 @@ def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W", PlotMap=False, Prop
     Additional properties for each polygon
   JSizatiON : function
     JSizatiON(obj) is a function that should return a serializable version of obj or raise TypeError. The default simply raises TypeError.
+  MdbCollection : pymongo.collection.Collection
+    MongoDB collection. Each polygon will be inserted into that collection
 
   Returns
   -------
@@ -241,11 +243,13 @@ def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W", PlotMap=False, Prop
 
     geojson["geometry"]["coordinates"].append([list(data["obj_polygon"].exterior.coords)])
 
+  if MdbCollection:
+    MdbCollection.insert_one(geojson)
 
   return json.dumps(geojson, default=JSizatiON)
 
 
-def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Properties=None, JSizatiON=None):
+def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Properties=None, JSizatiON=None, MdbCollection=None):
   """
 
   Parameters
@@ -271,6 +275,8 @@ def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Propertie
     Additional properties for each polygon
   JSizatiON : function
     JSizatiON(obj) is a function that should return a serializable version of obj or raise TypeError. The default simply raises TypeError.
+  MdbCollection : pymongo.collection.Collection
+    MongoDB collection. Each polygon will be inserted into that collection
 
   Returns
   -------
@@ -308,6 +314,9 @@ def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Propertie
 
     coords=[]
     geojson["geometry"]["coordinates"]=[list(data["obj_polygon"].exterior.coords)]
+
+    if MdbCollection:
+      MdbCollection.insert_one(geojson)
 
     output+=json.dumps(geojson, default=JSizatiON)#, sort_keys=True, indent=3)
     output+="\n"
