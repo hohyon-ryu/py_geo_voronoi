@@ -179,7 +179,39 @@ def VoronoiLineEdges(PointsMap):
   return vertices, lines, edges, has_edge
 
 
-def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W",PlotMap=False, Properties=None, JSizatiON=None):
+def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W", PlotMap=False, Properties=None, JSizatiON=None):
+  """
+
+  Parameters
+  ----------
+  PointsMap : dict
+    Dictionary of the points: (You can use simple sequential number for the dictionary keys or some text to associate with)
+    PointsMap={}
+    PointsMap["stationA"]=(-143.22, 38.22)
+    PointsMap["stationB"]=(-122.22, 56.22)
+    PointsMap[1]=(-122.22, 56.22)
+  BoundingBox : str or list
+    The bounding box (left_top_x, left_top_y, bottom_right_x, bottom_right,y) to generate a voronoi lattice.
+    Bounding Box Options: You can either use the name or the coordinates
+    "AUSTIN" [30.8, -98.5, 29.535, -97.031]
+    "TX" [36.5, -106, 25, -93]
+    "US" [55, -130, 23, -60]
+    "GUS" [60, -140, 22, -50]
+    "KR" [45, 120, 32, 135] (Korea)
+    "W" [90, -180, -90, 180] (World, Default)
+  PlotMap : bool
+    Shows the voronoi lattice on a map. This may be extremely slow if you have more than 1M points. (Default is False, Not available for VoronoiLineEdges)
+  Properties : dict
+    Additional properties for each polygon
+  JSizatiON : function
+    JSizatiON(obj) is a function that should return a serializable version of obj or raise TypeError. The default simply raises TypeError.
+
+  Returns
+  -------
+  str
+    JSON formatted stream
+
+  """
 
   vl=VoronoiPolygons(PointsMap, BoundingBox="W", PlotMap=PlotMap)      
 
@@ -213,7 +245,39 @@ def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W",PlotMap=False, Prope
   return json.dumps(geojson, default=JSizatiON)
 
 
-def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W",PlotMap=False, Properties=None, JSizatiON=None):
+def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Properties=None, JSizatiON=None):
+  """
+
+  Parameters
+  ----------
+  PointsMap : dict
+    Dictionary of the points: (You can use simple sequential number for the dictionary keys or some text to associate with)
+    PointsMap={}
+    PointsMap["stationA"]=(-143.22, 38.22)
+    PointsMap["stationB"]=(-122.22, 56.22)
+    PointsMap[1]=(-122.22, 56.22)
+  BoundingBox : str or list
+    The bounding box (left_top_x, left_top_y, bottom_right_x, bottom_right,y) to generate a voronoi lattice.
+    Bounding Box Options: You can either use the name or the coordinates
+    "AUSTIN" [30.8, -98.5, 29.535, -97.031]
+    "TX" [36.5, -106, 25, -93]
+    "US" [55, -130, 23, -60]
+    "GUS" [60, -140, 22, -50]
+    "KR" [45, 120, 32, 135] (Korea)
+    "W" [90, -180, -90, 180] (World, Default)
+  PlotMap : bool
+    Shows the voronoi lattice on a map. This may be extremely slow if you have more than 1M points. (Default is False, Not available for VoronoiLineEdges)
+  Properties : dict
+    Additional properties for each polygon
+  JSizatiON : function
+    JSizatiON(obj) is a function that should return a serializable version of obj or raise TypeError. The default simply raises TypeError.
+
+  Returns
+  -------
+  str
+    JSON formatted stream
+
+  """
 
   vl=VoronoiPolygons(PointsMap, BoundingBox="W", PlotMap=PlotMap)      
 
