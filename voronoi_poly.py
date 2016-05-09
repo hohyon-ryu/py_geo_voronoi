@@ -179,7 +179,7 @@ def VoronoiLineEdges(PointsMap):
   return vertices, lines, edges, has_edge
 
 
-def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W",PlotMap=False):
+def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W",PlotMap=False, Properties=None, JSizatiON=None):
 
   vl=VoronoiPolygons(PointsMap, BoundingBox="W", PlotMap=PlotMap)      
 
@@ -187,6 +187,9 @@ def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W",PlotMap=False):
   geojson={}
 
   geojson["properties"]={}
+  if Properties:
+    assert isinstance(Properties, dict)
+    geojson["properties"].update(Properties)
   geojson["properties"]["_domain_id"]=cluster_id
 
   geojson["type"]="Feature"
@@ -207,10 +210,10 @@ def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W",PlotMap=False):
     geojson["geometry"]["coordinates"].append([list(data["obj_polygon"].exterior.coords)])
 
 
-  return json.dumps(geojson)
+  return json.dumps(geojson, default=JSizatiON)
 
 
-def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W",PlotMap=False):
+def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W",PlotMap=False, Properties=None, JSizatiON=None):
 
   vl=VoronoiPolygons(PointsMap, BoundingBox="W", PlotMap=PlotMap)      
 
@@ -223,6 +226,9 @@ def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W",PlotMap=False):
     geojson={}
 
     geojson["properties"]={}
+    if Properties:
+      assert isinstance(Properties, dict)
+      geojson["properties"].update(Properties)
     geojson["properties"]["_domain_id"]=cluster_id
 
     geojson["type"]="Feature"
@@ -239,7 +245,7 @@ def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W",PlotMap=False):
     coords=[]
     geojson["geometry"]["coordinates"]=[list(data["obj_polygon"].exterior.coords)]
 
-    output+=json.dumps(geojson)#, sort_keys=True, indent=3)
+    output+=json.dumps(geojson, default=JSizatiON)#, sort_keys=True, indent=3)
     output+="\n"
   return output
 
