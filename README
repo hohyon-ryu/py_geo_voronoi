@@ -79,7 +79,7 @@ Created by Hohyon Ryu, Aug/22/2011
 
   4. GeoJson Polygons
     import voronoi_poly
-    voronoi_poly.VoronoiGeoJson_Polygons(PointsMap, BoundingBox="US")
+    voronoi_poly.VoronoiGeoJson_Polygons(PointsMap, BoundingBox="US", Properties={}, JSizatiON=None, polygon_hook=None)
     Output:
       Geojson Polygons
 

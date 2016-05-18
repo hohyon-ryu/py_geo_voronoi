@@ -244,7 +244,7 @@ def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W", PlotMap=False, Prop
   return json.dumps(geojson, default=JSizatiON)
 
 
-def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Properties=None, JSizatiON=None, polygon_hook=None):
+def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Properties={}, JSizatiON=None, polygon_hook=None):
   """
 
   Parameters
