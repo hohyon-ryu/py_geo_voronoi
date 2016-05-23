@@ -244,7 +244,7 @@ def VoronoiGeoJson_MultiPolygons(PointsMap, BoundingBox="W", PlotMap=False, Prop
   return json.dumps(geojson, default=JSizatiON)
 
 
-def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Properties={}, JSizatiON=None, polygon_hook=None):
+def VoronoiGeoJson_Polygons(PointsMap, BoundingBox=[-90,-180,90,180], PlotMap=False, Properties={}, JSizatiON=None, polygon_hook=None):
   """
 
   Parameters
@@ -255,15 +255,8 @@ def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Propertie
     PointsMap["stationA"]=(-143.22, 38.22)
     PointsMap["stationB"]=(-122.22, 56.22)
     PointsMap[1]=(-122.22, 56.22)
-  BoundingBox : str or list
-    The bounding box (left_top_x, left_top_y, bottom_right_x, bottom_right,y) to generate a voronoi lattice.
-    Bounding Box Options: You can either use the name or the coordinates
-    "AUSTIN" [30.8, -98.5, 29.535, -97.031]
-    "TX" [36.5, -106, 25, -93]
-    "US" [55, -130, 23, -60]
-    "GUS" [60, -140, 22, -50]
-    "KR" [45, 120, 32, 135] (Korea)
-    "W" [90, -180, -90, 180] (World, Default)
+  BoundingBox : list
+    The bounding box in GeoJSON specs (http://geojson.org/geojson-spec.html#bounding-boxes): [lon_min, lat_min, lon_max, lat_max] to generate a voronoi lattice.
   PlotMap : bool
     Shows the voronoi lattice on a map. This may be extremely slow if you have more than 1M points. (Default is False, Not available for VoronoiLineEdges)
   Properties : dict
@@ -280,8 +273,9 @@ def VoronoiGeoJson_Polygons(PointsMap, BoundingBox="W", PlotMap=False, Propertie
     JSON formatted stream
 
   """
-
-  vl=VoronoiPolygons(PointsMap, BoundingBox="W", PlotMap=PlotMap)      
+  bbox = BoundingBox
+  bbox[0], bbox[2] = BoundingBox[2], BoundingBox[0]
+  vl=VoronoiPolygons(PointsMap, BoundingBox=bbox, PlotMap=PlotMap)      
 
   output=""
   for vl_num, data in vl.items():
